@@ -13,7 +13,7 @@ const getCookie = (cookieName) => {
 class App extends Component {
   state = {
     clickCount: getCookie('count') || 0,
-    username: '',
+    username: getCookie('username') || '',
     usernameIsEditable: false,
   };
 
@@ -39,6 +39,7 @@ class App extends Component {
     this.setState({
       usernameIsEditable: false,
     });
+    document.cookie = `username=${this.state.username}`;
   };
 
   handleInputChange = (input) => (event) => {
