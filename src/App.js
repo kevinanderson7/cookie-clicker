@@ -10,6 +10,10 @@ const getCookie = (cookieName) => {
   );
 };
 
+function deleteCookie(name) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
 class App extends Component {
   state = {
     clickCount: getCookie('count') || 0,
@@ -49,18 +53,30 @@ class App extends Component {
     console.log(this.state);
   };
 
+  handleLogoutClick = () => {
+    this.setState({
+      ...this.state,
+      clickCount: 0,
+      username: '',
+    });
+    deleteCookie('username');
+    deleteCookie('count');
+  };
+
   render() {
     return (
       <div>
         <center>
           <h1>Click the Cookie!!</h1>
+          <button onClick={this.handleLogoutClick}>Log Out</button>
           <p>
             Username:{'  '}
             {this.state.username}
-            {/* The next block of code is conditional rendering.
+          </p>
+          {/* The next block of code is conditional rendering.
             Look at the documentation https://reactjs.org/docs/conditional-rendering.html
             if this is new to you. */}
-            {/* 
+          {/* 
               This conditional rendering is using a `ternary` operator. It works like an if/else block.
               The part at the front is being evaluated. The `?` starts the conditions. 
               The first condition is what will be done if true.
@@ -77,20 +93,19 @@ class App extends Component {
               ```
 
             */}
-            {this.state.usernameIsEditable ? (
-              <div>
-                <input
-                  onChange={this.handleInputChange('username')}
-                  placeholder="Enter Username"
-                ></input>
-                <button onClick={this.saveUsername}>Save Username</button>{' '}
-              </div>
-            ) : (
-              <div>
-                <button onClick={this.editUsername}>Edit Username</button>
-              </div>
-            )}
-          </p>
+          {this.state.usernameIsEditable ? (
+            <div>
+              <input
+                onChange={this.handleInputChange('username')}
+                placeholder="Enter Username"
+              ></input>
+              <button onClick={this.saveUsername}>Save Username</button>{' '}
+            </div>
+          ) : (
+            <div>
+              <button onClick={this.editUsername}>Edit Username</button>
+            </div>
+          )}
           <p>{this.state.clickCount}</p>
           <span
             role="img"
