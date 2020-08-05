@@ -41,14 +41,21 @@ class App extends Component {
     });
   };
 
+  handleInputChange = (input) => (event) => {
+    this.setState({
+      [input]: event.target.value,
+    });
+    console.log(this.state);
+  };
+
   render() {
     return (
       <div>
         <center>
           <h1>Click the Cookie!!</h1>
           <p>
-            Username:
-            {/* Username should go here */}
+            Username:{'  '}
+            {this.state.username}
             {/* The next block of code is conditional rendering.
             Look at the documentation https://reactjs.org/docs/conditional-rendering.html
             if this is new to you. */}
@@ -71,11 +78,16 @@ class App extends Component {
             */}
             {this.state.usernameIsEditable ? (
               <div>
-                <input placeholder="Enter Username"></input>
+                <input
+                  onChange={this.handleInputChange('username')}
+                  placeholder="Enter Username"
+                ></input>
                 <button onClick={this.saveUsername}>Save Username</button>{' '}
               </div>
             ) : (
-              <button onClick={this.editUsername}>Edit Username</button>
+              <div>
+                <button onClick={this.editUsername}>Edit Username</button>
+              </div>
             )}
           </p>
           <p>{this.state.clickCount}</p>
