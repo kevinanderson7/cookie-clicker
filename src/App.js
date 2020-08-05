@@ -3,41 +3,43 @@ import React, { Component } from 'react';
 // Utility function -- looks at all the cookies for this page and gives you the one requested
 const getCookie = (cookieName) => {
   // Get name followed by anything except a semicolon
-  const cookieString = RegExp(''+cookieName+'[^;]+').exec(document.cookie);
+  const cookieString = RegExp('' + cookieName + '[^;]+').exec(document.cookie);
   // Return everything after the equal sign, or an empty string if the cookie name not found
-  return decodeURIComponent(!!cookieString ? cookieString.toString().replace(/^[^=]+./,'') : '');
-}
+  return decodeURIComponent(
+    !!cookieString ? cookieString.toString().replace(/^[^=]+./, '') : ''
+  );
+};
 
 class App extends Component {
   state = {
     clickCount: getCookie('count') || 0,
     username: '',
     usernameIsEditable: false,
-  }
+  };
 
   handleClick = () => {
     const newCount = Number(this.state.clickCount) + 1;
-    
+
     // This is making a cookie called count with the newCount amount
     // It will replace anything called count
     document.cookie = `count=${newCount}`;
-    
+
     this.setState({
       clickCount: newCount,
     });
-  }
+  };
 
   editUsername = () => {
     this.setState({
       usernameIsEditable: true,
     });
-  }
+  };
 
   saveUsername = () => {
     this.setState({
       usernameIsEditable: false,
     });
-  }
+  };
 
   render() {
     return (
@@ -67,16 +69,20 @@ class App extends Component {
               ```
 
             */}
-            {this.state.usernameIsEditable ?
-              <button onClick={this.saveUsername}>Save Username</button> :
+            {this.state.usernameIsEditable ? (
+              <div>
+                <input placeholder="Enter Username"></input>
+                <button onClick={this.saveUsername}>Save Username</button>{' '}
+              </div>
+            ) : (
               <button onClick={this.editUsername}>Edit Username</button>
-            }
+            )}
           </p>
           <p>{this.state.clickCount}</p>
           <span
             role="img"
             aria-label="cookie"
-            style={{fontSize: '100px', cursor: 'pointer'}}
+            style={{ fontSize: '100px', cursor: 'pointer' }}
             onClick={this.handleClick}
           >
             🍪
